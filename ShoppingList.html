@@ -39,12 +39,12 @@ function gotoQuantity(obj)
 
 }
 
-function tickItem(){
-  if($("#abc").hasClass("ticked") === false) {
-    $("#abc").addClass("ticked");
+function tickItem(obj){
+  if($(obj).hasClass("ticked") === false) {
+    $(obj).addClass("ticked");
   }
   else {
-    $("#abc").removeClass("ticked");
+    $(obj).removeClass("ticked");
   }
 }
 
@@ -61,7 +61,7 @@ function showChosenItems()
 	 for (var key in chosenItems) {
 
 	  vegData = key + ":" +  chosenItems[key];
-	  $('<li>').append('<a id="abc" href="#"  onclick="tickItem()" >' + vegData + '</a>').appendTo('#shoppingList');
+	  $('<li>').append('<a href="#"  onclick="tickItem($(this))" >' + vegData + '</a>').appendTo('#shoppingList');
 
 
   	 }
