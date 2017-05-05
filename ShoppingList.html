@@ -1,0 +1,207 @@
+
+<<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script type="text/javascript" src="http://dev.jtsage.com/cdn/spinbox/latest/jqm-spinbox.min.js"></script>
+<style media="screen">
+  .ticked{
+    text-decoration: line-through !important;
+  }
+</style>
+</head>
+<body>
+
+<script>
+var chosenItems = {};
+
+$( document ).ready(function() {
+    // you can only save strings to local storage
+	// so all js objects have to be saved in the form JSON.stringify()
+	// and retrieved in the format JSON.parse(obj)
+    var q = localStorage.getItem("previousList");
+	if (q!=null) chosenItems = JSON.parse(q);
+});
+
+
+
+function gotoQuantity(obj)
+{
+
+	vegetablesChosen = $(obj).text();
+	$("#vegname").text(vegetablesChosen);
+	$.mobile.changePage("#quantity");
+
+
+
+}
+
+function tickItem(){
+  if($("#abc").hasClass("ticked") === false) {
+    $("#abc").addClass("ticked");
+  }
+  else {
+    $("#abc").removeClass("ticked");
+  }
+}
+
+
+
+function showChosenItems()
+{
+
+
+	//remove existing items from shopping list
+	 $("#shoppingList").empty();
+
+	 //iterate through the dictionary chosenItems
+	 for (var key in chosenItems) {
+
+	  vegData = key + ":" +  chosenItems[key];
+	  $('<li>').append('<a id="abc" href="#"  onclick="tickItem()" >' + vegData + '</a>').appendTo('#shoppingList');
+
+
+  	 }
+	//you have to navigate to the page after you have populated
+	$.mobile.changePage("#finalShoppingList");
+	 $("#shoppingList").listview('refresh');
+
+
+}
+
+function backToList()
+{
+	saveChoice();
+	$.mobile.changePage("#pageone");
+
+}
+
+function saveChoice()
+{
+	vegetableChosen = $("#vegname").text();
+	quantityChosen = $("#spin").val();
+	$('#confirm').text(vegetableChosen + " : " + quantityChosen);
+	$("#myPopup").popup("open");
+    setTimeout(function(){
+		$("#spin").val(0);
+		$("#vegname").text("");
+		$.mobile.changePage("#pageone");
+		showChosenItems();
+		$("#myPopup").popup("close");
+		}, 1000);
+	chosenItems[vegetableChosen] = quantityChosen;
+	localStorage.setItem("previousList",JSON.stringify(chosenItems));
+}
+
+$( document ).ready(function() {
+    $('.prod').click(function() {
+		gotoQuantity($(this));
+	});
+
+});
+
+// listContentArray.sort(function (a, b) {
+//     var valA = $(a).text(),
+//         valB = $(b).text();
+//     if (valA < valB) {
+//         return -1;
+//     }
+//     if (valA > valB) {
+//         return 1;
+//     }
+//     return 0;
+//});
+
+</script>
+
+<div data-role="page" id="pageone">
+  <div data-role="main" class="ui-content">
+    <h1>Groceries Shopping List</h1>
+    <form class="ui-filterable">
+      <input id="myFilter" data-type="search" placeholder="Search">
+
+    </form>
+
+	<div class="ui-grid-a">
+      <div class="ui-block-a ui-alt-icon">
+        <h1>All Groceries List</h1>
+            <ul data-role="listview" data-filter="true" data-input="#myFilter" data-autodividers="true" data-inset="true">
+      <li><a class='prod'>Apples</a></li>
+      <li><a class='prod'>Apricots</a></li>
+      <li><a class='prod'>Bananas</a></li>
+      <li><a class='prod'>Beetroot</a></li>
+      <li><a class='prod'>Carrots</a></li>
+      <li><a class='prod'>Courgettes</a></li>
+      <li><a class='prod'>Cucumber</a></li>
+      <li><a class='prod'>Daikon Radish</a></li>
+      <li><a class='prod'>Eggplant</a></li>
+      <li><a class='prod'>Endive</a></li>
+      <li><a class='prod'>Fennel</a></li>
+      <li><a class='prod'>Fiddlehead</a></li>
+      <li><a class='prod'>Garlic</a></li>
+      <li><a class='prod'>Ginger</a></li>
+      <li><a class='prod'>Horseradish</a></li>
+      <li><a class='prod'>Hearts of Palm</a></li>
+      <li><a class='prod'>Jerusalem Artichoke</a></li>
+      <li><a class='prod'>Jicama</a></li>
+      <li><a class='prod'>Kale</a></li>
+      <li><a class='prod'>Kohlrabi</a></li>
+      <li><a class='prod'>Leeks</a></li>
+      <li><a class='prod'>Lettuce</a></li>
+      <li><a class='prod'>Mushrooms</a></li>
+      <li><a class='prod'>Napa Cabbage</a></li>
+      <li><a class='prod'>Nopales</a></li>
+      <li><a class='prod'>Okra</a></li>
+      <li><a class='prod'>Onion</a></li>
+      <li><a class='prod'>Parsley</a></li>
+      <li><a class='prod'>Parsnip</a></li>
+      <li><a class='prod'>Rutabaga</a></li>
+      <li><a class='prod'>Radish</a></li>
+      <li><a class='prod'>Spinach</a></li>
+      <li><a class='prod'>Squash</a></li>
+      <li><a class='prod'>Tomato</a></li>
+      <li><a class='prod'>Turnip</a></li>
+      <li><a class='prod'>Water Chestnut</a></li>
+      <li><a class='prod'>Winter Melon</a></li>
+      <li><a class='prod'>Yams</a></li>
+      <li><a class='prod'>Zucchini</a></li>
+
+
+    </ul>
+      </div>
+
+
+      <div class="ui-block-b ui-alt-icon">
+        <div id="allVegetablesChosen">
+          <h1 style="margin-left: 15px">My Shopping List</h1>
+			<ul style="margin-left:15px"data-role="listview" data-filter="true" data-sort="true" data-input="#myFilter" data-autodividers="true" data-inset="true" id="shoppingList">
+			</ul>
+		</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div data-role="page" id="quantity">
+  <div data-role="main" class="ui-content">
+  	  <h1 id="vegname"></h1>
+     <div class="ui-field-contain">
+       <label for="spin">Input spinner</label>
+       <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="10" />
+      </div>
+      <button onclick="backToList()">Confirm</button>
+      <button onclick="showChosenItems()">Show Chosen Items</button>
+
+	 <div data-role="popup" id="myPopup">
+		<p id="confirm">This is a simple popup.</p>
+	 </div>
+ </div>
+
+</div>
+
+</body>
+</html>
