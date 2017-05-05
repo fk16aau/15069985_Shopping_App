@@ -10,6 +10,10 @@
 <style media="screen">
   .ticked{
     text-decoration: line-through !important;
+    color: #808080 !important;
+  }
+  li{
+    display: inline;
   }
 </style>
 </head>
@@ -26,6 +30,11 @@ $( document ).ready(function() {
 	if (q!=null) chosenItems = JSON.parse(q);
 });
 
+function deleteLocal(){
+  localStorage.clear();
+  $("#shoppingList").listview('refresh');
+  location.reload();
+}
 
 
 function gotoQuantity(obj)
@@ -48,6 +57,11 @@ function tickItem(obj){
   }
 }
 
+function deleteItem(obj) {
+
+  $(obj).parent().parent().remove();
+}
+
 
 
 function showChosenItems()
@@ -61,7 +75,7 @@ function showChosenItems()
 	 for (var key in chosenItems) {
 
 	  vegData = key + ":" +  chosenItems[key];
-	  $('<li>').append('<a href="#"  onclick="tickItem($(this))" >' + vegData + '</a>').appendTo('#shoppingList');
+	  $('<li data-icon="false">').append('<a style="text-align: center; font-size:20px;" href="#" onclick="tickItem(this)" >' + vegData + '<button style="margin-left:50px; border-radius:50%;" class="ui-btn ui-btn-inline" onclick="deleteItem(this)" class="ui-btn">  Delete</button>' + '</a>').appendTo('#shoppingList');
 
 
   	 }
@@ -180,8 +194,11 @@ $( document ).ready(function() {
 			<ul style="margin-left:15px"data-role="listview" data-filter="true" data-sort="true" data-input="#myFilter" data-autodividers="true" data-inset="true" id="shoppingList">
 			</ul>
 		</div>
+    <button style="margin-top:10px" type="button" name="button" onclick="deleteLocal()">Delete Shopping List</button>
       </div>
+
     </div>
+
 
   </div>
 </div>
@@ -194,7 +211,7 @@ $( document ).ready(function() {
        <input type="text" data-role="spinbox" name="spin" id="spin" value="0" min="0" max="10" />
       </div>
       <button onclick="backToList()">Confirm</button>
-      <button onclick="showChosenItems()">Show Chosen Items</button>
+      <!-- <button onclick="showChosenItems()">Show Chosen Items</button> -->
 
 	 <div data-role="popup" id="myPopup">
 		<p id="confirm">This is a simple popup.</p>
